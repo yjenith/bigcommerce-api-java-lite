@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<project name="BigCommerce" default="main" basedir=".">
+	<property name="src.dir" location="src" />
+	<property name="test.dir" location="test" />
+	<property name="build.dir" location="classes" />
+	<property name="dist.dir" location="dist" />
+	<property name="docs.dir" location="docs" />
+
+	<!-- Deletes the existing build, docs and dist directory-->
+	<target name="clean">
+		<delete dir="${build.dir}" />
+		<delete dir="${docs.dir}" />
+		<delete dir="${dist.dir}" />
+	</target>
+
+	<!-- Creates the  build, docs and dist directory-->
+	<target name="makedir">
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${docs.dir}" />
+		<mkdir dir="${dist.dir}" />
+	</target>
+
+	<!-- Compiles the java code (including the usage of library for JUnit -->
+	<target name="compile" depends="clean, makedir">
+		<javac srcdir="${src.dir}" destdir="${build.dir}" />
+		<javac srcdir="${test.dir}" destdir="${build.dir}" />
+	</target>
+
+	<!-- Creates Javadoc -->
+	<target name="docs" depends="compile">
+		<javadoc packagenames="src" sourcepath="${src.dir}" destdir="${docs.dir}">
+			<!-- Define which files / directory should get included -->
+			<fileset dir="${src.dir}">
+				<include name="**" />
+			</fileset>
+		</javadoc>
+	</target>
+
+	<!--Creates the deployable jar file  -->
+	<target name="jar" depends="compile">
+		<jar destfile="${dist.dir}\com.bigcommerce.api.jar" basedir="${build.dir}">
+			<manifest>
+				<!--<attribute name="Main-Class" value="test.Main" />-->
+			</manifest>
+		</jar>
+	</target>
+
+	<target name="package" depends="compile, jar, docs" />
+
+	<target name="build" depends="compile" />
+
+	<!-- Run manual output tests -->
+	<target name="test">
+		<java classpath="./classes/" classname="Test" />
+	</target>
+
+</project>
