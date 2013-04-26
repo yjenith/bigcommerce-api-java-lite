@@ -13,12 +13,12 @@ import org.w3c.dom.Element;
 public class ResourceTest {
 
 	Mockery context = new Mockery();
-	
-	final Element document = context.mock(Element.class);
 
 	@Test
 	public void testConstructorAssignsProvidedDocument()
 	{
+		final Element document = context.mock(Element.class);
+
 		Resource resource = new Resource(document);
 		assertSame(document, resource.document);
 	}
