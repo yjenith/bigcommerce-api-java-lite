@@ -8,7 +8,7 @@
 	<packaging>jar</packaging>
 
 	<name>Bigcommerce API Client for Java</name>
-	<description>Java client for accessing the BigCommerce REST API</description>
+	<description>Java client for accessing the Bigcommerce REST API</description>
 	<url>http://github.com/bigcommerce/bigcommerce-api-java</url>
 
 	<licenses>

@@ -77,6 +77,9 @@ public class Connection
 		return this;
     }
     
+    /**
+     * Close any existing HTTP connection.
+     */
     private void closeExistingConnection() {
 		if (transport != null) {
             transport.disconnect();
@@ -84,6 +87,9 @@ public class Connection
         }
     }
     
+    /**
+     * Close any open connection.
+     */
     public void close() {
     	closeExistingConnection();
     }
@@ -109,7 +115,6 @@ public class Connection
 
         } catch(Exception e) {
             System.out.print(e.toString());
-
         }
 
         return false;
@@ -128,7 +133,6 @@ public class Connection
 	        return true;
         } catch(Exception e) {
             System.out.print(e.toString());
-
         }
 
         return false;
