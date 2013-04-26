@@ -25,9 +25,9 @@ public class Connection
     private InputStream responseStream;
     private HttpURLConnection transport;
 
-    public Connection(String storeurl, String username, String apikey)
+    public Connection(String storeUrl, String username, String apikey)
     {
-        this.storeUrl = storeurl;
+        this.storeUrl = storeUrl;
         this.username = username;
         this.password = apikey;
     }

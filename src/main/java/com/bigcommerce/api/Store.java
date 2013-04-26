@@ -7,7 +7,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 /**
- * Facade for accessing a BigCommerce store via the REST API.
+ * Facade for accessing a Bigcommerce store via the REST API.
  */
 public class Store
 {

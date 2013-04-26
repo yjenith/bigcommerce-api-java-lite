@@ -1,25 +1,25 @@
 package com.bigcommerce.api;
 
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 public class Product extends Resource
 {
 
-	public Product(Element document)
-	{
+	public Product(Element document) {
 		super(document);
 	}
-	
-	public String getName()
-	{
-		NodeList elements = document.getElementsByTagName("name");
-		Node price = elements.item(0);
-		if (price != null) {
-			return price.getTextContent();
+
+	public String getName() {
+		return getScalarField("name");
+	}
+
+	public Integer getId() {
+		String id = getScalarField("id");
+		if (id != null) {
+			return Integer.parseInt(id);
+		} else {
+			return null;
 		}
-		return null;
 	}
 
 }
