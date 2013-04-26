@@ -1,7 +1,7 @@
-BigCommerce API V2 Java Client
+Bigcommerce API V2 Java Client
 ==============================
 
-Java client for accessing the BigCommerce REST API.
+Java client for accessing the Bigcommerce REST API.
 
 Installation
 ------------
@@ -17,7 +17,7 @@ Using the store facade:
 ```
 import com.bigcommerce.api.Store;
 
-class BigCommerceApiTest
+class BigcommerceApiTest
 {
 
 	public static void main(String[] args)

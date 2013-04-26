@@ -7,7 +7,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 /**
- * Facade for accessing a BigCommerce store via the REST API.
+ * Facade for accessing a Bigcommerce store via the REST API.
  */
 public class Store
 {
@@ -23,7 +23,7 @@ public class Store
      */
     public List<Product> getProducts()
     {
-        List products = new ArrayList<Product>();
+        List<Product> products = new ArrayList<Product>();
         Element xml = this.connection.get("/products").asXml();
 
         NodeList productTags = xml.getElementsByTagName("product");
