@@ -1,6 +1,5 @@
 package com.bigcommerce.api;
 
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 class Resource

@@ -23,7 +23,7 @@ public class Store
      */
     public List<Product> getProducts()
     {
-        List products = new ArrayList<Product>();
+        List<Product> products = new ArrayList<Product>();
         Element xml = this.connection.get("/products").asXml();
 
         NodeList productTags = xml.getElementsByTagName("product");

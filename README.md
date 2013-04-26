@@ -1,7 +1,7 @@
 BigCommerce API V2 Java Client
 ==============================
 
-Java client for accessing the BigCommerce REST API.
+Java client for accessing the Bigcommerce REST API.
 
 Installation
 ------------
