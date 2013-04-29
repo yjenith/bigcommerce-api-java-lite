@@ -9,17 +9,18 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class ProductTest {
-	
+
 	Mockery context = new Mockery();
 
 	@Test
-	public void testGetNameReturnsIdNodeText() {
+	public void testGetNameReturnsNameNodeText() {
 		final Element document = context.mock(Element.class);
 		final String expectedName = "Test Product";
 
 		Product product = new Product(document);
 
-		context.checking(createNodeTextExpectations(document, "name", expectedName));
+		context.checking(createNodeTextExpectations(document, "name",
+				expectedName));
 
 		String actualName = product.getName();
 
@@ -33,20 +34,22 @@ public class ProductTest {
 
 		Product product = new Product(document);
 
-		context.checking(createNodeTextExpectations(document, "id", expectedId.toString()));
+		context.checking(createNodeTextExpectations(document, "id",
+				expectedId.toString()));
 
 		Integer actualId = product.getId();
 
 		assertEquals(expectedId, actualId);
 	}
 
-	protected Expectations createNodeTextExpectations(final Element document, final String name, final String text) {
+	protected Expectations createNodeTextExpectations(final Element document,
+			final String name, final String text) {
 		final Node nameNode = context.mock(Node.class);
 		final NodeList nameNodeList = context.mock(NodeList.class);
 		return new Expectations() {{
 			oneOf(nameNode).getTextContent(); will(returnValue(text));
 			oneOf(nameNodeList).item(0); will(returnValue(nameNode));
-		    oneOf(document).getElementsByTagName(name); will(returnValue(nameNodeList));
+			oneOf(document).getElementsByTagName(name); will(returnValue(nameNodeList));
 		}};
 	}
 }

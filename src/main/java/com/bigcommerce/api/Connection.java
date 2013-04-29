@@ -14,193 +14,188 @@ import org.apache.commons.codec.binary.Base64;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+public class Connection {
 
-public class Connection
-{
+	String username;
+	String password;
+	String storeUrl;
 
-    String username;
-    String password;
-    String storeUrl;
-    
-    private InputStream responseStream;
-    private HttpURLConnection transport;
+	private InputStream responseStream;
+	private HttpURLConnection transport;
 
-    public Connection(String storeUrl, String username, String apikey)
-    {
-        this.storeUrl = storeUrl;
-        this.username = username;
-        this.password = apikey;
-    }
+	public Connection(String storeUrl, String username, String apikey) {
+		this.storeUrl = storeUrl;
+		this.username = username;
+		this.password = apikey;
+	}
 
-    /**
-     * Get encoded string representing HTTP Basic authorization credentials for the request.
-     */
-    private String getBasicAuthHeader()
-    {
-        String token = this.username + ":" + this.password;
-		byte[] encodedToken = Base64.encodeBase64(token.getBytes()); 
-        return "Basic " + new String(encodedToken);
-    }
+	/**
+	 * Get encoded string representing HTTP Basic authorization credentials for
+	 * the request.
+	 */
+	private String getBasicAuthHeader() {
+		String token = this.username + ":" + this.password;
+		byte[] encodedToken = Base64.encodeBase64(token.getBytes());
+		return "Basic " + new String(encodedToken);
+	}
 
-    /**
-     * Create the HTTP connection transport to specified URL path.
-     */
-    private HttpURLConnection createTransport(String path, String verb) throws java.io.IOException
-    {
-        URL url = new URL(this.storeUrl + path);
-        HttpURLConnection transport = (HttpURLConnection) url.openConnection();
-        transport.setRequestMethod(verb);
-        transport.setRequestProperty("Authorization", this.getBasicAuthHeader());
-        return transport;
-    }
+	/**
+	 * Create the HTTP connection transport to specified URL path.
+	 */
+	private HttpURLConnection createTransport(String path, String verb)
+			throws java.io.IOException {
+		URL url = new URL(this.storeUrl + path);
+		HttpURLConnection transport = (HttpURLConnection) url.openConnection();
+		transport.setRequestMethod(verb);
+		transport
+				.setRequestProperty("Authorization", this.getBasicAuthHeader());
+		return transport;
+	}
 
-    /**
-     * Make an HTTP GET request to the given endpoint.
-     */
-    public Connection get(String path)
-    {
+	/**
+	 * Make an HTTP GET request to the given endpoint.
+	 */
+	public Connection get(String path) {
 		if (transport != null) {
-            transport.disconnect();
-        }
+			transport.disconnect();
+		}
 
 		try {
 
 			transport = this.createTransport(path, "GET");
-    		this.responseStream = transport.getInputStream();
+			this.responseStream = transport.getInputStream();
 
-		} catch(Exception e) {
+		} catch (Exception e) {
 
 			System.out.print(e.toString());
 
 		}
 
 		return this;
-    }
-    
-    /**
-     * Close any existing HTTP connection.
-     */
-    private void closeExistingConnection() {
+	}
+
+	/**
+	 * Close any existing HTTP connection.
+	 */
+	private void closeExistingConnection() {
 		if (transport != null) {
-            transport.disconnect();
-            transport = null;
-        }
-    }
-    
-    /**
-     * Close any open connection.
-     */
-    public void close() {
-    	closeExistingConnection();
-    }
+			transport.disconnect();
+			transport = null;
+		}
+	}
 
-    /**
-     * Make an HTTP POST request to the given endpoint.
-     */
-    public boolean post(String path, String data)
-    {
-    	
-    	closeExistingConnection();
+	/**
+	 * Close any open connection.
+	 */
+	public void close() {
+		closeExistingConnection();
+	}
 
-        try {
-            transport = this.createTransport(path, "POST");
-	        transport.setDoOutput(true);
-	        
-            OutputStreamWriter post = new OutputStreamWriter(transport.getOutputStream());
-            post.write(data);
-            post.flush();
-            post.close();
+	/**
+	 * Make an HTTP POST request to the given endpoint.
+	 */
+	public boolean post(String path, String data) {
 
-            this.responseStream = transport.getInputStream();
+		closeExistingConnection();
 
-        } catch(Exception e) {
-            System.out.print(e.toString());
-        }
+		try {
+			transport = this.createTransport(path, "POST");
+			transport.setDoOutput(true);
 
-        return false;
-    }
+			OutputStreamWriter post = new OutputStreamWriter(
+					transport.getOutputStream());
+			post.write(data);
+			post.flush();
+			post.close();
 
-    /**
-     * Make an HTTP PUT request to the given endpoint.
-     */
-    public boolean put(String path, String data)
-    {
-    	closeExistingConnection();
+			this.responseStream = transport.getInputStream();
 
-        try {
-            transport = this.createTransport(path, "PUT");
-	        this.responseStream = transport.getInputStream();
-	        return true;
-        } catch(Exception e) {
-            System.out.print(e.toString());
-        }
+		} catch (Exception e) {
+			System.out.print(e.toString());
+		}
 
-        return false;
-    }
+		return false;
+	}
 
-    /**
-     * Make an HTTP DELETE request to the given endpoint.
-     */
-    public boolean delete(String path)
-    {
-    	closeExistingConnection();
+	/**
+	 * Make an HTTP PUT request to the given endpoint.
+	 */
+	public boolean put(String path, String data) {
+		closeExistingConnection();
 
-        try {
-            transport = this.createTransport(path, "DELETE");
-            return true;
-        } catch(Exception e) {
-            System.out.print(e.toString());
-        }
+		try {
+			transport = this.createTransport(path, "PUT");
+			this.responseStream = transport.getInputStream();
+			return true;
+		} catch (Exception e) {
+			System.out.print(e.toString());
+		}
 
-        return false;
-    }
+		return false;
+	}
 
-    /**
-     * String representation of the raw HTTP response body.
-     */
-    public String asString()
-    {
-    	String responseBody = "";
+	/**
+	 * Make an HTTP DELETE request to the given endpoint.
+	 */
+	public boolean delete(String path) {
+		closeExistingConnection();
 
-    	try {
-            StringBuffer body = new StringBuffer();
-    		BufferedReader reader = new BufferedReader(new InputStreamReader(this.responseStream, "UTF-8"));
-    		String inputLine;
-    		while ((inputLine = reader.readLine()) != null) {
-    			body.append(inputLine);
-    		}
-    		reader.close();
-    		responseBody = body.toString();
+		try {
+			transport = this.createTransport(path, "DELETE");
+			return true;
+		} catch (Exception e) {
+			System.out.print(e.toString());
+		}
 
-    	} catch (Exception e) {
-    		System.out.print(e.toString());
-    	} finally {
-    		closeExistingConnection();
-    	}
+		return false;
+	}
+
+	/**
+	 * String representation of the raw HTTP response body.
+	 */
+	public String asString() {
+		String responseBody = "";
+
+		try {
+			StringBuffer body = new StringBuffer();
+			BufferedReader reader = new BufferedReader(new InputStreamReader(
+					this.responseStream, "UTF-8"));
+			String inputLine;
+			while ((inputLine = reader.readLine()) != null) {
+				body.append(inputLine);
+			}
+			reader.close();
+			responseBody = body.toString();
+
+		} catch (Exception e) {
+			System.out.print(e.toString());
+		} finally {
+			closeExistingConnection();
+		}
 
 		return responseBody;
-    }
+	}
 
-    /**
-     * XML representation of the HTTP response.
-     */
-     public Element asXml()
-     {
-    	 Element responseXml = null;
+	/**
+	 * XML representation of the HTTP response.
+	 */
+	public Element asXml() {
+		Element responseXml = null;
 
-    	 try {
-   	        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-   	        DocumentBuilder builder = factory.newDocumentBuilder();
-   	        Document document = builder.parse(this.responseStream);
-   	        responseXml = document.getDocumentElement();
+		try {
+			DocumentBuilderFactory factory = DocumentBuilderFactory
+					.newInstance();
+			DocumentBuilder builder = factory.newDocumentBuilder();
+			Document document = builder.parse(this.responseStream);
+			responseXml = document.getDocumentElement();
 
-    	 } catch(Exception e) {
-    		 System.out.print(e.toString());
-    	 } finally {
-    		 closeExistingConnection();
-    	 }
+		} catch (Exception e) {
+			System.out.print(e.toString());
+		} finally {
+			closeExistingConnection();
+		}
 
-    	 return responseXml;
-     }
+		return responseXml;
+	}
 
 }
