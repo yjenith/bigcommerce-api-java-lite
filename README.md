@@ -24,15 +24,15 @@ class BigcommerceApiTest
 	{
 		String storeUrl = "https://examplestore.com";
 		String username = "admin";
-		String apiKey   = "akjfalksjflksjflaskdjflasdk"
+		String apiKey   = "akjfalksjflksjflaskdjflasdk";
 
-		Store store = new Store(storeUrl, user, apiKey);
+		Store store = new Store(storeUrl, username, apiKey);
 
 		Collection<Product> products = store.getProducts();
 
-		for(product in products) {
-			System.out.println(product.getName());
-			System.out.println(product.getPrice());
+		for (Product product : products) {
+			System.out.println("Product Name:" + product.getName());
+			System.out.println("Product ID:" + product.getId());
 		}
 	}
 
