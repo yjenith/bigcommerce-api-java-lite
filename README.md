@@ -26,11 +26,11 @@ class BigcommerceApiTest
 		String username = "admin";
 		String apiKey   = "akjfalksjflksjflaskdjflasdk";
 
-		Orders ordersResource = new Store(storeUrl, user, apiKey).getOrdersResource();
+		Orders orders = new Store(storeUrl, user, apiKey).getOrders();
 
-		Collection<Order> orders = ordersResource.listAll();
+		Collection<Order> allOrders = ordersResource.listAll();
 
-		for (Order order : orders) {
+		for (Order order : allOrders) {
 			System.out.println("Customer ID:" + order.getCustomerId());
 			System.out.println("Order ID:" + order.getId());
 			System.out.println("Order Status:" + order.getStatus());
