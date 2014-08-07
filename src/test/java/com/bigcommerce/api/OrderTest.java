@@ -7,9 +7,9 @@ import com.bigcommerce.api.resources.Orders;
 public class OrderTest {
 
 	public static void main(String[] args) {
-		String storeUrl = "";
-		String user = "";
-		String apiKey = "";
+       		String storeUrl = "https://examplestore.com";
+        	String use	= "admin";
+        	String apiKey   = "akjfalksjflksjflaskdjflasdk";
 
 		Store store = new Store(storeUrl, user, apiKey);
 		Orders ordersResource = store.getOrdersResource();
