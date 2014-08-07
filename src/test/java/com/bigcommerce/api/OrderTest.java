@@ -11,16 +11,17 @@ public class OrderTest {
         	String use	= "admin";
         	String apiKey   = "akjfalksjflksjflaskdjflasdk";
 
-		Store store = new Store(storeUrl, user, apiKey);
-		Orders ordersResource = store.getOrdersResource();
+		Store storeApi = new Store(storeUrl, user, apiKey);
+		Orders orders = storeApi.getOrders();
 
-		Collection<Order> orders = ordersResource.listAll();
+		Collection<Order> allOrders = orders.listAll();
 
-		for (Order order : orders) {
+		for (Order order : allOrders) {
 			System.out.println("Customer ID:" + order.getCustomerId());
 			System.out.println("Order ID:" + order.getId());
 			System.out.println("Order Status:" + order.getStatus());
 		}
 	}
 
+	
 }
