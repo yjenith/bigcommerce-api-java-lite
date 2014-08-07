@@ -27,7 +27,6 @@ class BigcommerceApiTest
 		String apiKey   = "akjfalksjflksjflaskdjflasdk";
 
 		Store api = new Store(storeUrl, username, apiKey);
-
 		Collection<Order> orders = api.getOrders().listAll();
 
 		for (Order order : orders) {
