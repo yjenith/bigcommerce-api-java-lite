@@ -2,7 +2,7 @@ package com.bigcommerce.api;
 
 import org.w3c.dom.Element;
 
-public class Product extends Resource {
+public class Product extends Response {
 
 	public Product(Element document) {
 		super(document);
