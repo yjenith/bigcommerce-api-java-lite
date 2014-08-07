@@ -37,20 +37,22 @@ public class Store {
 	}
 
 	/**
-	 * Products collection
+	 * Gets Orders resource to manage.
+	 * 
+	 * 
+	 * @return
 	 */
-	public List<Product> getProducts() {
-		List<Product> products = new ArrayList<Product>();
-		Element xml = this.connection.get("/products").asXml();
-
-		NodeList productTags = xml.getElementsByTagName("product");
-		for (int i = 0; i < productTags.getLength(); i++) {
-			Element productTag = (Element) productTags.item(i);
-			Product product = new Product(productTag);
-			products.add(product);
-		}
-
-		return products;
+	public Orders getOrdersResource(){
+		return new Orders(this.connection);
+	}
+	
+	/**
+	 *  Gets Products resource to manage.
+	 * 
+	 * @return
+	 */
+	public Products getProductsResource(){
+		return new Products(this.connection);
 	}
 
 }
