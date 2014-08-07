@@ -42,7 +42,7 @@ public class Store {
 	 * 
 	 * @return
 	 */
-	public Orders getOrdersResource(){
+	public Orders getOrders(){
 		return new Orders(this.connection);
 	}
 	
@@ -51,7 +51,7 @@ public class Store {
 	 * 
 	 * @return
 	 */
-	public Products getProductsResource(){
+	public Products getProducts(){
 		return new Products(this.connection);
 	}
 
