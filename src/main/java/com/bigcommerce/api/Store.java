@@ -1,13 +1,7 @@
 package com.bigcommerce.api;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-
-import com.bigcommerce.api.Credentials;
-import com.bigcommerce.api.SimpleCredentials;
+import com.bigcommerce.api.resources.Orders;
+import com.bigcommerce.api.resources.Products;
 
 /**
  * Facade for accessing a Bigcommerce store via the REST API.
