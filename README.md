@@ -28,7 +28,7 @@ class BigcommerceApiTest
 
 		Orders orders = new Store(storeUrl, user, apiKey).getOrders();
 
-		Collection<Order> allOrders = ordersResource.listAll();
+		Collection<Order> allOrders = orders.listAll();
 
 		for (Order order : allOrders) {
 			System.out.println("Customer ID:" + order.getCustomerId());
