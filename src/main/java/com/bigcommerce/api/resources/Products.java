@@ -29,6 +29,7 @@ public class Products implements Resource {
 	/**
 	 * Gets the collection of products.
 	 */
+	@Override
 	public List<Product> listAll() {
 		List<Product> products = new ArrayList<Product>();
 		Element xml = this.connection.get("/products").asXml();
@@ -47,9 +48,10 @@ public class Products implements Resource {
 	 * 
 	 * Gets a product.
 	 * 
-	 * @param orderId
+	 * @param productId
 	 * @return
 	 */
+	@Override
 	public Product getOne(Integer productId) {
 		Product product = null;
 		StringBuffer path = new StringBuffer("/products/" + productId);
