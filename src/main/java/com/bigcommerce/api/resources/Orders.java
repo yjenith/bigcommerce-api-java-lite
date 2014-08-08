@@ -30,6 +30,7 @@ public class Orders implements Resource {
 	/**
 	 * Gets the collection of orders.
 	 */
+	@Override
 	public List<Order> listAll() {
 		List<Order> orders = new ArrayList<Order>();
 		Element xml = this.connection.get("/orders").asXml();
@@ -53,6 +54,7 @@ public class Orders implements Resource {
 	 * @param orderId
 	 * @return
 	 */
+	@Override
 	public Order getOne(Integer orderId) {
 		Order order = null;
 		StringBuffer path = new StringBuffer("/orders/" + orderId);
