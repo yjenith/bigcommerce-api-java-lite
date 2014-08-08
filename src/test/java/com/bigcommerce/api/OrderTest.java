@@ -16,7 +16,6 @@ public class OrderTest {
 
 		Collection<Order> allOrders = orders.listAll();
 
-		
 		for (Order order : orders) {
 			System.out.println("Customer ID:" + order.getCustomerId());
 			System.out.println("Order ID:" + order.getId());
