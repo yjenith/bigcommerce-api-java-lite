@@ -1,9 +1,13 @@
 package com.bigcommerce.api;
 
+import java.util.List;
+
 import org.w3c.dom.Element;
 
 public class Order extends Response {
 
+	private List<OrderProduct> orderProducts;
+		
 	public Order(Element document) {
 		super(document);
 	}
@@ -41,6 +45,14 @@ public class Order extends Response {
 		} else {
 			return null;
 		}
+	}
+
+	public List<OrderProduct> getOrderProducts() {
+		return orderProducts;
+	}
+
+	public void setOrderProducts(List<OrderProduct> orderProducts) {
+		this.orderProducts = orderProducts;
 	}
 	
 }
