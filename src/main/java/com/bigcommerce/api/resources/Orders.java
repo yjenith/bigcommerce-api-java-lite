@@ -8,6 +8,7 @@ import org.w3c.dom.NodeList;
 
 import com.bigcommerce.api.Connection;
 import com.bigcommerce.api.Order;
+import com.bigcommerce.api.OrderProduct;
 
 /**
  * Facade for managing a Bigcommerce store Orders Resource via the REST API..
@@ -37,6 +38,8 @@ public class Orders implements Resource {
 		for (int i = 0; i < orderTags.getLength(); i++) {
 			Element orderTag = (Element) orderTags.item(i);
 			Order order = new Order(orderTag);
+			// order products
+			order.setOrderProducts(this.listAllOrderProducts(order.getId()));
 			orders.add(order);
 		}
 
@@ -60,6 +63,25 @@ public class Orders implements Resource {
 		order = new Order(orderTag);
 
 		return order;
+	}
+
+	/**
+	 * Gets the collection of order products.
+	 */
+	public List<OrderProduct> listAllOrderProducts(Integer orderId) {
+		List<OrderProduct> orderProducts = new ArrayList<OrderProduct>();
+		StringBuffer path = new StringBuffer("/orders/" + orderId);
+		path.append("/products");
+		Element xml = this.connection.get(path.toString()).asXml();
+
+		NodeList orderProductTags = xml.getElementsByTagName("product");
+		for (int i = 0; i < orderProductTags.getLength(); i++) {
+			Element orderProductTag = (Element) orderProductTags.item(i);
+			OrderProduct orderProduct = new OrderProduct(orderProductTag);
+			orderProducts.add(orderProduct);
+		}
+
+		return orderProducts;
 	}
 
 }
