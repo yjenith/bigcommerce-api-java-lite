@@ -10,7 +10,7 @@ import com.bigcommerce.util.QueryStringBuilder;
 /**
  * Builds a query to filter the results of a collection request.
  * 
- * @author jyogapa1
+ * @author Jenith
  * 
  */
 public class Filter {
