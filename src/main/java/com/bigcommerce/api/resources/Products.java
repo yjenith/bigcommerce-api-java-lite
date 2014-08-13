@@ -7,6 +7,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import com.bigcommerce.api.Connection;
+import com.bigcommerce.api.Filter;
 import com.bigcommerce.api.Product;
 
 /**
@@ -31,14 +32,29 @@ public class Products implements Resource {
 	 */
 	@Override
 	public List<Product> listAll() {
-		List<Product> products = new ArrayList<Product>();
-		Element xml = this.connection.get("/products").asXml();
+		return this.listAll(null);
+	}
 
-		NodeList productTags = xml.getElementsByTagName("product");
-		for (int i = 0; i < productTags.getLength(); i++) {
-			Element productTag = (Element) productTags.item(i);
-			Product product = new Product(productTag);
-			products.add(product);
+	/**
+	 * Gets the collection of products.
+	 */
+	@Override
+	public List<Product> listAll(Filter filter) {
+		List<Product> products = new ArrayList<Product>();
+
+		StringBuffer path = new StringBuffer("/products");
+		if (filter != null) {
+			path = new StringBuffer(filter.toQuery());
+		}
+		Element xml = this.connection.get(path.toString()).asXml();
+
+		if (xml != null) {
+			NodeList productTags = xml.getElementsByTagName("product");
+			for (int i = 0; i < productTags.getLength(); i++) {
+				Element productTag = (Element) productTags.item(i);
+				Product product = new Product(productTag);
+				products.add(product);
+			}
 		}
 
 		return products;
@@ -57,9 +73,11 @@ public class Products implements Resource {
 		StringBuffer path = new StringBuffer("/products/" + productId);
 		Element xml = this.connection.get(path.toString()).asXml();
 
-		NodeList productTags = xml.getElementsByTagName("product");
-		Element productTag = (Element) productTags.item(0);
-		product = new Product(productTag);
+		if (xml != null) {
+			NodeList productTags = xml.getElementsByTagName("product");
+			Element productTag = (Element) productTags.item(0);
+			product = new Product(productTag);
+		}
 
 		return product;
 	}
