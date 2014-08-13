@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.bigcommerce.util.QueryStringBuilder;
+import com.bigcommerce.http.QueryStringBuilder;
 
 /**
  * Builds a query to filter the results of a collection request.
