@@ -1,4 +1,4 @@
-package com.bigcommerce.util;
+package com.bigcommerce.http;
 
 /*
  * Copyright 2009 Vladimir Ritz Bossicard
