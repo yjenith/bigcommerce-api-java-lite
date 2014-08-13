@@ -7,6 +7,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import com.bigcommerce.api.Connection;
+import com.bigcommerce.api.Filter;
 import com.bigcommerce.api.Order;
 import com.bigcommerce.api.OrderProduct;
 
@@ -32,16 +33,31 @@ public class Orders implements Resource {
 	 */
 	@Override
 	public List<Order> listAll() {
-		List<Order> orders = new ArrayList<Order>();
-		Element xml = this.connection.get("/orders").asXml();
+		return this.listAll(null);
+	}
 
-		NodeList orderTags = xml.getElementsByTagName("order");
-		for (int i = 0; i < orderTags.getLength(); i++) {
-			Element orderTag = (Element) orderTags.item(i);
-			Order order = new Order(orderTag);
-			// order products
-			order.setOrderProducts(this.listAllOrderProducts(order.getId()));
-			orders.add(order);
+	/**
+	 * Gets the collection of orders.
+	 */
+	@Override
+	public List<Order> listAll(Filter filter) {
+		List<Order> orders = new ArrayList<Order>();
+
+		StringBuffer path = new StringBuffer("/orders");
+		if (filter != null) {
+			path = new StringBuffer("/orders" + filter.toQuery());
+		}
+		Element xml = this.connection.get(path.toString()).asXml();
+
+		if (xml != null) {
+			NodeList orderTags = xml.getElementsByTagName("order");
+			for (int i = 0; i < orderTags.getLength(); i++) {
+				Element orderTag = (Element) orderTags.item(i);
+				Order order = new Order(orderTag);
+				// order products
+				order.setOrderProducts(this.listAllOrderProducts(order.getId()));
+				orders.add(order);
+			}
 		}
 
 		return orders;
@@ -60,15 +76,17 @@ public class Orders implements Resource {
 		StringBuffer path = new StringBuffer("/orders/" + orderId);
 		Element xml = this.connection.get(path.toString()).asXml();
 
-		NodeList orderTags = xml.getElementsByTagName("order");
-		Element orderTag = (Element) orderTags.item(0);
-		order = new Order(orderTag);
+		if (xml != null) {
+			NodeList orderTags = xml.getElementsByTagName("order");
+			Element orderTag = (Element) orderTags.item(0);
+			order = new Order(orderTag);
+		}
 
 		return order;
 	}
 
 	/**
-	 * Gets the collection of order products.
+	 * Gets the collection of orders.
 	 */
 	public List<OrderProduct> listAllOrderProducts(Integer orderId) {
 		List<OrderProduct> orderProducts = new ArrayList<OrderProduct>();
@@ -76,11 +94,13 @@ public class Orders implements Resource {
 		path.append("/products");
 		Element xml = this.connection.get(path.toString()).asXml();
 
-		NodeList orderProductTags = xml.getElementsByTagName("product");
-		for (int i = 0; i < orderProductTags.getLength(); i++) {
-			Element orderProductTag = (Element) orderProductTags.item(i);
-			OrderProduct orderProduct = new OrderProduct(orderProductTag);
-			orderProducts.add(orderProduct);
+		if (xml != null) {
+			NodeList orderProductTags = xml.getElementsByTagName("product");
+			for (int i = 0; i < orderProductTags.getLength(); i++) {
+				Element orderProductTag = (Element) orderProductTags.item(i);
+				OrderProduct orderProduct = new OrderProduct(orderProductTag);
+				orderProducts.add(orderProduct);
+			}
 		}
 
 		return orderProducts;
