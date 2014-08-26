@@ -7,7 +7,8 @@ import org.w3c.dom.Element;
 public class Order extends Response {
 
 	private List<OrderProduct> orderProducts;
-		
+	private List<ShippingAddress> shippingAddresses;
+
 	public Order(Element document) {
 		super(document);
 	}
@@ -28,7 +29,7 @@ public class Order extends Response {
 	public String getStatus() {
 		return getScalarField("status");
 	}
-	
+
 	public Integer getItemsTotal() {
 		String itemsTotal = getScalarField("items_total");
 		if (itemsTotal != null) {
@@ -37,7 +38,7 @@ public class Order extends Response {
 			return null;
 		}
 	}
-	
+
 	public Integer getItemsShipped() {
 		String itemsShipped = getScalarField("items_shipped");
 		if (itemsShipped != null) {
@@ -54,5 +55,13 @@ public class Order extends Response {
 	public void setOrderProducts(List<OrderProduct> orderProducts) {
 		this.orderProducts = orderProducts;
 	}
-	
+
+	public List<ShippingAddress> getShippingAddresses() {
+		return shippingAddresses;
+	}
+
+	public void setShippingAddresses(List<ShippingAddress> shippingAddresses) {
+		this.shippingAddresses = shippingAddresses;
+	}
+
 }
