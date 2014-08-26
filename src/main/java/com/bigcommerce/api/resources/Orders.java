@@ -10,6 +10,7 @@ import com.bigcommerce.api.Connection;
 import com.bigcommerce.api.Filter;
 import com.bigcommerce.api.Order;
 import com.bigcommerce.api.OrderProduct;
+import com.bigcommerce.api.ShippingAddress;
 
 /**
  * Facade for managing a Bigcommerce store Orders Resource via the REST API..
@@ -56,6 +57,8 @@ public class Orders implements Resource {
 				Order order = new Order(orderTag);
 				// order products
 				order.setOrderProducts(this.listAllOrderProducts(order.getId()));
+				// order shipping addresses
+				order.setShippingAddresses(this.listAllShippingAddresses(order.getId()));
 				orders.add(order);
 			}
 		}
@@ -86,7 +89,7 @@ public class Orders implements Resource {
 	}
 
 	/**
-	 * Gets the collection of orders.
+	 * Gets the collection of order products.
 	 */
 	public List<OrderProduct> listAllOrderProducts(Integer orderId) {
 		List<OrderProduct> orderProducts = new ArrayList<OrderProduct>();
@@ -104,6 +107,27 @@ public class Orders implements Resource {
 		}
 
 		return orderProducts;
+	}
+
+	/**
+	 * Gets the collection of shipping addresses of an order.
+	 */
+	public List<ShippingAddress> listAllShippingAddresses(Integer orderId) {
+		List<ShippingAddress> shippingAddresses = new ArrayList<ShippingAddress>();
+		StringBuffer path = new StringBuffer("/orders/" + orderId);
+		path.append("/shippingaddresses");
+		Element xml = this.connection.get(path.toString()).asXml();
+
+		if (xml != null) {
+			NodeList shippingAddressTags = xml.getElementsByTagName("address");
+			for (int i = 0; i < shippingAddressTags.getLength(); i++) {
+				Element shippingAddrTag = (Element) shippingAddressTags.item(i);
+				ShippingAddress shippingAddr = new ShippingAddress(shippingAddrTag);
+				shippingAddresses.add(shippingAddr);
+			}
+		}
+
+		return shippingAddresses;
 	}
 
 }
