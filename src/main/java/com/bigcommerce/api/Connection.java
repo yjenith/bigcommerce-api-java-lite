@@ -67,7 +67,7 @@ public class Connection {
 
 		} catch (Exception e) {
 
-			System.out.print(e.toString());
+			System.out.println(e.toString());
 
 		}
 
@@ -111,7 +111,7 @@ public class Connection {
 			this.responseStream = transport.getInputStream();
 
 		} catch (Exception e) {
-			System.out.print(e.toString());
+			System.out.println(e.toString());
 		}
 
 		return false;
@@ -125,10 +125,22 @@ public class Connection {
 
 		try {
 			transport = this.createTransport(path, "PUT");
+			transport.setDoOutput(true);
+		    transport.setRequestProperty("Content-Type", "application/json");
+
+			OutputStreamWriter put = new OutputStreamWriter(
+					transport.getOutputStream());
+			put.write(data);
+			put.flush();
+			put.close();
+			
 			this.responseStream = transport.getInputStream();
-			return true;
+			int result = transport.getResponseCode(); 
+			if(result == HttpURLConnection.HTTP_OK) {
+				return true;
+			}
 		} catch (Exception e) {
-			System.out.print(e.toString());
+			System.out.println(e.toString());
 		}
 
 		return false;
@@ -144,7 +156,7 @@ public class Connection {
 			transport = this.createTransport(path, "DELETE");
 			return true;
 		} catch (Exception e) {
-			System.out.print(e.toString());
+			System.out.println(e.toString());
 		}
 
 		return false;
@@ -168,7 +180,7 @@ public class Connection {
 			responseBody = body.toString();
 
 		} catch (Exception e) {
-			System.out.print(e.toString());
+			System.out.println(e.toString());
 		} finally {
 			closeExistingConnection();
 		}
@@ -190,7 +202,7 @@ public class Connection {
 			responseXml = document.getDocumentElement();
 
 		} catch (Exception e) {
-			System.out.print(e.toString());
+			System.out.println(e.toString());
 		} finally {
 			closeExistingConnection();
 		}
