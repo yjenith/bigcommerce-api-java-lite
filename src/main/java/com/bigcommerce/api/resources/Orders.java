@@ -8,6 +8,7 @@ import org.w3c.dom.NodeList;
 
 import com.bigcommerce.api.Connection;
 import com.bigcommerce.api.Filter;
+import com.bigcommerce.api.Form;
 import com.bigcommerce.api.Order;
 import com.bigcommerce.api.OrderProduct;
 import com.bigcommerce.api.ShippingAddress;
@@ -128,6 +129,13 @@ public class Orders implements Resource {
 		}
 
 		return shippingAddresses;
+	}
+
+	@Override
+	public Boolean update(Integer orderId, Form data) {
+		StringBuffer path = new StringBuffer("/orders/" + orderId);
+		Boolean result = this.connection.put(path.toString(), data.toJson());
+		return result;
 	}
 
 }
