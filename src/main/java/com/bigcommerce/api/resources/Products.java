@@ -8,6 +8,7 @@ import org.w3c.dom.NodeList;
 
 import com.bigcommerce.api.Connection;
 import com.bigcommerce.api.Filter;
+import com.bigcommerce.api.Form;
 import com.bigcommerce.api.Product;
 
 /**
@@ -80,6 +81,13 @@ public class Products implements Resource {
 		}
 
 		return product;
+	}
+	
+	@Override
+	public Boolean update(Integer productId, Form data) {
+		StringBuffer path = new StringBuffer("/products/" + productId);
+		Boolean result = this.connection.put(path.toString(), data.toJson());
+		return result;
 	}
 
 }
