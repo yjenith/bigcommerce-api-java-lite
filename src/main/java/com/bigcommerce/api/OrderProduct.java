@@ -4,6 +4,11 @@ import org.w3c.dom.Element;
 
 public class OrderProduct extends Response {
 
+	public OrderProduct() {
+		super();
+	}
+	
+	
 	public OrderProduct(Element document) {
 		super(document);
 	}
