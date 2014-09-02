@@ -14,6 +14,13 @@ Required Library:
 Getting Started
 ---------------
 This is the simplest way to construct a Bigcommerce API client
+	
+	// Get Store API connection (Authentication)
+	Store api = new Store(storeUrl, user, apiKey);
+
+	String url = "/orders";
+	// Get Orders resource to manage
+	BaseResource<Order> ordersRes = api.newResource(Order.class, url, "order");
 
 This example executes a GET request to the Bigcommece api:
 
