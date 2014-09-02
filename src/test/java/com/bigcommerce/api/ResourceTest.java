@@ -11,11 +11,11 @@ import org.w3c.dom.Element;
  * the test suite.
  */
 public class ResourceTest {
+	
 	public static void main(String[] args) {
-String storeUrl = "https://examplestore.com";
-String use	= "admin";
-String apiKey = "akjfalksjflksjflaskdjflasdk";
-
+		String storeUrl = "https://examplestore.com";
+		String use	= "admin";
+		String apiKey = "akjfalksjflksjflaskdjflasdk";
 
 		// Get Store API connection
 		Store api = new Store(storeUrl, user, apiKey);
