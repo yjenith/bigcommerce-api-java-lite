@@ -1,0 +1,179 @@
+package com.bigcommerce.api.resources;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+
+import com.bigcommerce.api.Connection;
+import com.bigcommerce.api.Filter;
+import com.bigcommerce.api.Form;
+import com.bigcommerce.api.Response;
+
+/**
+ * Generic version of the Resource class.
+ * 
+ * Facade for managing a Bigcommerce store Resource via the REST API..
+ * 
+ * @param <T>
+ *            the type of the class being boxed
+ * 
+ * @author Jenith Michael Raj
+ */
+public class BaseResource<T extends Response> implements Resource {
+	// T stands for "Type"
+	private Class<T> className;
+	private Connection connection;
+	private String uri;
+	private String rootTag;
+	private Integer id;
+
+	public BaseResource(Class<T> className, Connection connection, String uri,
+			String rootTag) {
+		this.className = className;
+		this.connection = connection;
+		this.uri = uri;
+		this.rootTag = rootTag;
+	}
+
+	private T buildOne() throws InstantiationException, IllegalAccessException {
+		return className.newInstance();
+
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	/**
+	 * Creates a new resource
+	 * 
+	 * @param data
+	 *            Form parameters
+	 * @return
+	 */
+	@Override
+	public Boolean create(Form data) {
+		Boolean result = this.connection.post(this.uri, data.toJson());
+		return result;
+	}
+
+	/**
+	 * Updates a resource
+	 * 
+	 * 
+	 * @param data
+	 * @return
+	 */
+	@Override
+	public Boolean update(Form data) {
+		StringBuffer path = new StringBuffer(this.uri);
+		if (this.id != null) {
+			path.append("/").append(this.id);
+		}
+		Boolean result = this.connection.put(path.toString(), data.toJson());
+		return result;
+	}
+
+	/**
+	 * Gets the collection of api orders.
+	 */
+	@Override
+	public List<T> listAll() {
+		return this.listAll(null);
+	}
+
+	/**
+	 * Gets the collection of api resources
+	 */
+	@Override
+	public List<T> listAll(Filter filter) {
+		List<T> resources = new ArrayList<T>();
+
+		StringBuffer path = new StringBuffer(this.uri);
+		if (filter != null) {
+			path.append(filter.toQuery());
+		}
+
+		Element xml = this.connection.get(path.toString()).asXml();
+
+		if (xml != null) {
+			NodeList itemTags = xml.getElementsByTagName(this.rootTag);
+			for (int i = 0; i < itemTags.getLength(); i++) {
+				Element xmlTag = (Element) itemTags.item(i);
+				T t = null;
+				try {
+					t = this.buildOne();
+					t.setDocument(xmlTag);
+
+				} catch (InstantiationException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				resources.add(t);
+			}
+		}
+
+		return resources;
+	}
+
+	/**
+	 * Gets a Resource
+	 * 
+	 * @param
+	 * @return
+	 */
+	@Override
+	public T get() {
+		StringBuffer path = new StringBuffer(this.uri);
+		if (this.id != null) {
+			path.append("/").append(this.id);
+		}
+
+		T t = null;
+		Element xml = this.connection.get(path.toString()).asXml();
+
+		if (xml != null) {
+			try {
+				t = this.buildOne();
+				t.setDocument(xml);
+
+			} catch (InstantiationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		return t;
+	}
+
+	/**
+	 * Deletes a resource
+	 * 
+	 * 
+	 * @param data
+	 * @return
+	 */
+	@Override
+	public Boolean delete() {
+		StringBuffer path = new StringBuffer(this.uri);
+		if (this.id != null) {
+			path.append("/").append(this.id);
+		}
+		Boolean result = this.connection.delete(path.toString());
+		return result;
+	}
+
+}
