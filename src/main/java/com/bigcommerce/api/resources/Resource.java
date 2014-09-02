@@ -4,14 +4,14 @@ import java.util.List;
 
 import com.bigcommerce.api.Filter;
 import com.bigcommerce.api.Form;
-import com.bigcommerce.api.Response;
 
-public interface Resource {
+public interface Resource<T> {
 	public void setId(Integer id);
 	public Boolean create(Form data);
 	public Boolean update(Form data);
-	public List<? extends Response> listAll();
-	public List<? extends Response> listAll(Filter filter);
-	public Response get();
+	public List<T> listAll();
+	public List<T> listAll(Filter filter);
+	public T get();
 	public Boolean delete();
+	
 }
