@@ -8,7 +8,11 @@ public class Order extends Response {
 
 	private List<OrderProduct> orderProducts;
 	private List<ShippingAddress> shippingAddresses;
-
+	
+	public Order() {
+		super();
+	}
+	
 	public Order(Element document) {
 		super(document);
 	}
