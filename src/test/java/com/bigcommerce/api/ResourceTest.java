@@ -1,42 +1,37 @@
 package com.bigcommerce.api;
 
-import static org.junit.Assert.*;
+import java.util.Collection;
 
-import org.jmock.Mockery;
-import org.junit.Test;
-import org.w3c.dom.Element;
+import com.bigcommerce.api.resources.BaseResource;
+import com.bigcommerce.api.resources.Resource;
 
-/**
- * A simple test that serves as an example and starting point for building out
- * the test suite.
- */
 public class ResourceTest {
-	
+
 	public static void main(String[] args) {
-		String storeUrl = "https://examplestore.com";
-		String use	= "admin";
-		String apiKey = "akjfalksjflksjflaskdjflasdk";
+		String storeUrl = "https://store-nhze6w2d.mybigcommerce.com/api/v2";
+		String user = "webops";
+		String apiKey = "5fd83d1753c6dbd125da6b0433d1ec6620c5b2bf";
 
 		// Get Store API connection
 		Store api = new Store(storeUrl, user, apiKey);
 
 		// Get Orders resource to manage
 		StringBuffer uriPath = new StringBuffer("/orders");
-		BaseResource<Order> ordersRes = api.newResource(Order.class,
+		Resource<Order> ordersRes = api.getResource(Order.class,
 				uriPath.toString(), "order");
 
 		testListOrderWithNoFilter(ordersRes);
 		testListOrderWithFilter(ordersRes);
 		testGetAnOrder(ordersRes);
 		testUpdateOrder(ordersRes);
-		testDeleteOrder(ordersRes);
+		//testDeleteOrder(ordersRes);
 	}
 
 	/**
 	 * 
 	 * 
 	 */
-	public static void testGetAnOrder(BaseResource<Order> ordersRes) {
+	public static void testGetAnOrder(Resource<Order> ordersRes) {
 		Order order = null;
 
 		// Set ID of the record
@@ -53,7 +48,7 @@ public class ResourceTest {
 	 * 
 	 * @param api
 	 */
-	public static void testListOrderWithNoFilter(BaseResource<Order> ordersRes) {
+	public static void testListOrderWithNoFilter(Resource<Order> ordersRes) {
 		System.out.println("Test List Order without filter-----");
 		Collection<Order> orders = ordersRes.listAll();
 
@@ -71,7 +66,7 @@ public class ResourceTest {
 	 * 
 	 * @param api
 	 */
-	public static void testListOrderWithFilter(BaseResource<Order> ordersRes) {
+	public static void testListOrderWithFilter(Resource<Order> ordersRes) {
 		System.out.println("Test List Order with min_id filter-----");
 
 		// Filter parameters
@@ -93,7 +88,7 @@ public class ResourceTest {
 	 * 
 	 * @param api
 	 */
-	public static void testUpdateOrder(BaseResource<Order> ordersRes) {
+	public static void testUpdateOrder(Resource<Order> ordersRes) {
 		System.out.println("Test  Update Order-----");
 
 		// Set ID of the record to be updated
