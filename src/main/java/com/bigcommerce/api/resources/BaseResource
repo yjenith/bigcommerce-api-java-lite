@@ -19,7 +19,7 @@ import com.bigcommerce.api.Response;
  * @param <T>
  *            the type of the class being boxed
  * 
- * @author jyogapa1
+ * @author Jenith
  */
 public class BaseResource<T extends Response> implements Resource<T> {
 	// T stands for "Type"
