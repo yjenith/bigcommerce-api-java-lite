@@ -9,8 +9,78 @@ Installation
 Import the .jar file into your classpath, or download and compile the source
 package in ./src
 
-Usage
------
+Required Library: 
+
+Getting Started
+---------------
+This is the simplest way to construct a Bigcommerce API client
+
+This example executes a GET request to the Bigcommece api:
+
+	String storeUrl = "https://examplestore.com";
+        String username = "admin";
+        String apiKey   = "akjfalksjflksjflaskdjflasdk";
+
+	// Get Store API connection
+	Store api = new Store(storeUrl, user, apiKey);
+
+	String url = "/orders";
+	// Get Orders resource to manage
+	BaseResource<Order> ordersRes = api.newResource(Order.class, url, "order");
+	
+	// Set ID of the record
+	ordersRes.setId(105);
+
+	// Get an Order
+	Order order = ordersRes.get();
+
+Execute a GET Request to get a single object
+------------------------------------------------------
+
+	String url = "/orders";
+	BaseResource<Order> ordersRes = api.newResource(Order.class, url, "order");
+			
+	// Get an Order
+	Order order = ordersRes.get();
+
+Execute a GET Request to get a list of objects
+------------------------------------------------------
+
+	String url = "/orders";
+	BaseResource<Order> ordersRes = api.newResource(Order.class, url, "order");
+	
+	Collection<Order> orders = ordersRes.listAll();
+
+Execute a POST Request on a single object
+----------------------------------------------
+
+	String url = "/orders";
+	BaseResource<Order> ordersRes = api.newResource(Order.class, url, "order");
+	
+	// Form parameters
+	Form form = Form.create();
+	form.addProperty...
+	form.addProperty...
+
+	// Update
+	Boolean status = ordersRes.create(form);
+
+Execute a PUT Request on a single object
+---------------------------------------------
+
+	String url = "/orders";
+	BaseResource<Order> ordersRes = api.newResource(Order.class, url, "order");
+	
+	// Set ID of the record to be updated
+	ordersRes.setId(107);
+
+	// Form parameters
+	Form form = Form.create();
+	form.addProperty("status_id", 12);
+
+	// Update
+	Boolean status = ordersRes.update(form);
+
 
 Using the store facade:
 
@@ -25,16 +95,28 @@ class BigcommerceApiTest
 		String storeUrl = "https://examplestore.com";
 		String username = "admin";
 		String apiKey   = "akjfalksjflksjflaskdjflasdk";
+		
+		// Get Store API connection
+		Store api = new Store(storeUrl, user, apiKey);
 
-		Store api = new Store(storeUrl, username, apiKey);
-		Collection<Order> orders = api.getOrders().listAll();
+		// Get Orders resource to manage
+		String url = "/orders";
+		BaseResource<Order> ordersRes = api.newResource(Order.class, url, "order");
+	
+		// Filter parameters
+		Filter filter = Filter.create();
+		filter.add("min_id", "107");
+		Collection<Order> orders = ordersRes.listAll(filter);
 
 		for (Order order : orders) {
 			System.out.println("Customer ID:" + order.getCustomerId());
 			System.out.println("Order ID:" + order.getId());
 			System.out.println("Order Status:" + order.getStatus());
+
+			System.out.println("---------------------");
 		}
 	}
 
 }
 ```
+See also: https://github.com/yjenith/bigcommerce-api-java
