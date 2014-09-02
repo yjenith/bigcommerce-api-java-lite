@@ -1,16 +1,15 @@
 package com.bigcommerce.api;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
-
-import com.bigcommerce.http.QueryStringBuilder;
 
 /**
  * Builds a query to filter the results of a collection request.
  * 
- * @author Jenith
+ * @author Jenith Michael Raj. Y
  * 
  */
 public class Filter {
@@ -26,9 +25,9 @@ public class Filter {
 	}
 
 	/**
-	* Factory method, creates an instance of a filter.
-	* Used to build URLs to collection endpoints.
-	*/
+	 * Factory method, creates an instance of a filter. Used to build URLs to
+	 * collection endpoints.
+	 */
 	public static Filter create(Map<String, String> parameters) {
 		return (parameters == null) ? new Filter(new HashMap<String, String>())
 				: new Filter(parameters);
@@ -46,22 +45,38 @@ public class Filter {
 	 */
 	public String toQuery() {
 		String query = null;
-		try {
-			query = httpBuildQuery(this.parameters);
-		} catch (UnsupportedEncodingException e) {
-			// TODO Log
-			e.printStackTrace();
-		}
+		query = httpBuildQuery(this.parameters);
 		return (query != null) ? query : "";
 	}
 
-	private String httpBuildQuery(Map<String, String> data)
-			throws UnsupportedEncodingException {
-		QueryStringBuilder builder = new QueryStringBuilder();
-		for (Entry<String, String> pair : data.entrySet()) {
-			builder.addQueryParameter(pair.getKey(), pair.getValue());
+	/**
+	 * Build a query string.
+	 * 
+	 * @param params
+	 * @return
+	 */
+	protected String httpBuildQuery(Map<String, String> params) {
+		if (params == null || params.isEmpty())
+			return "";
+		StringBuilder sb = new StringBuilder("?");
+		int i = 0;
+		for (Map.Entry<String, String> entry : params.entrySet()) {
+			String key = entry.getKey();
+			String value = entry.getValue();
+			if (i > 0) {
+				sb.append("&");
+			}
+			try {
+				sb.append(key)
+						.append("=")
+						.append(URLEncoder.encode(value, Charset
+								.defaultCharset().name()));
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			i++;
 		}
-		return builder.encode("UTF-8");
+		return sb.toString();
 	}
 
 }
