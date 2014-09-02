@@ -1,6 +1,7 @@
 package com.bigcommerce.api;
 
 import com.bigcommerce.api.resources.BaseResource;
+import com.bigcommerce.api.resources.Resource;
 
 /**
  * Facade for accessing a Bigcommerce store via the REST API.
@@ -40,10 +41,10 @@ public class Store {
 	 * 
 	 * @return
 	 */
-	public <T extends Response> BaseResource<T> newResource(Class<T> className,
+	public <T extends Response> Resource<T> getResource(Class<T> className,
 			String path, String rootItemTag) {
 
-		BaseResource<T> br = new BaseResource<T>(className, this.connection,
+		Resource<T> br = new BaseResource<T>(className, this.connection,
 				path.toString(), rootItemTag);
 
 		return br;
