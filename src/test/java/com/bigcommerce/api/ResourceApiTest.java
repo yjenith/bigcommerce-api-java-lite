@@ -29,7 +29,7 @@ public class ResourceApiTest {
 	}
 
 	/**
-	 * 
+	 * Gets an Order
 	 * 
 	 */
 	public static void testGetAnOrder(Resource<Order> ordersRes) {
