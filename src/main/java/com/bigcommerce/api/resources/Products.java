@@ -45,7 +45,7 @@ public class Products implements Resource {
 
 		StringBuffer path = new StringBuffer("/products");
 		if (filter != null) {
-			path = new StringBuffer(filter.toQuery());
+			path.append(filter.toQuery());
 		}
 		Element xml = this.connection.get(path.toString()).asXml();
 
