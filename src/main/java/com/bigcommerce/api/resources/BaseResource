@@ -27,8 +27,7 @@ public class BaseResource<T extends Response> implements Resource<T> {
 	private Connection connection;
 	private String uri;
 	private String rootTag;
-	private Integer id;
-
+	
 	public BaseResource(Class<T> className, Connection connection, String uri,
 			String rootTag) {
 		this.className = className;
@@ -42,14 +41,7 @@ public class BaseResource<T extends Response> implements Resource<T> {
 
 	}
 
-	public Integer getId() {
-		return id;
-	}
-
-	@Override
-	public void setId(Integer id) {
-		this.id = id;
-	}
+	
 
 	/**
 	 * Creates a new resource
@@ -72,10 +64,10 @@ public class BaseResource<T extends Response> implements Resource<T> {
 	 * @return
 	 */
 	@Override
-	public Boolean update(Form data) {
+	public Boolean update(Integer id, Form data) {
 		StringBuffer path = new StringBuffer(this.uri);
-		if (this.id != null) {
-			path.append("/").append(this.id);
+		if (id != null) {
+			path.append("/").append(id);
 		}
 		Boolean result = this.connection.put(path.toString(), data.toJson());
 		return result;
@@ -133,10 +125,10 @@ public class BaseResource<T extends Response> implements Resource<T> {
 	 * @return
 	 */
 	@Override
-	public T get() {
+	public T get(Integer id) {
 		StringBuffer path = new StringBuffer(this.uri);
-		if (this.id != null) {
-			path.append("/").append(this.id);
+		if (id != null) {
+			path.append("/").append(id);
 		}
 
 		T t = null;
@@ -167,10 +159,10 @@ public class BaseResource<T extends Response> implements Resource<T> {
 	 * @return
 	 */
 	@Override
-	public Boolean delete() {
+	public Boolean delete(Integer id) {
 		StringBuffer path = new StringBuffer(this.uri);
-		if (this.id != null) {
-			path.append("/").append(this.id);
+		if (id!= null) {
+			path.append("/").append(id);
 		}
 		Boolean result = this.connection.delete(path.toString());
 		return result;
