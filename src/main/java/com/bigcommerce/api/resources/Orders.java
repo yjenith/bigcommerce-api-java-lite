@@ -47,7 +47,7 @@ public class Orders implements Resource {
 
 		StringBuffer path = new StringBuffer("/orders");
 		if (filter != null) {
-			path = new StringBuffer("/orders" + filter.toQuery());
+			path.append(filter.toQuery());
 		}
 		Element xml = this.connection.get(path.toString()).asXml();
 
