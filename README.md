@@ -18,8 +18,8 @@ This is the simplest way to construct a Bigcommerce API client
 This example executes a GET request to the Bigcommece api:
 
 	String storeUrl = "https://examplestore.com";
-        String username = "admin";
-        String apiKey   = "akjfalksjflksjflaskdjflasdk";
+	String username = "admin";
+	String apiKey   = "akjfalksjflksjflaskdjflasdk";
 
 	// Get Store API connection
 	Store api = new Store(storeUrl, user, apiKey);
