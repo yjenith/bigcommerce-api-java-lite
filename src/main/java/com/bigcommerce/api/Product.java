@@ -4,6 +4,10 @@ import org.w3c.dom.Element;
 
 public class Product extends Response {
 
+	public Product() {
+		super();
+	}
+	
 	public Product(Element document) {
 		super(document);
 	}
