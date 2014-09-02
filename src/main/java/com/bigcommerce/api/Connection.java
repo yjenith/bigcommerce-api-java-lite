@@ -1,12 +1,14 @@
 package com.bigcommerce.api;
 
+import java.io.BufferedReader;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
+import java.util.Map.Entry;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -49,6 +51,12 @@ public class Connection {
 		transport.setRequestMethod(verb);
 		transport
 				.setRequestProperty("Authorization", this.getBasicAuthHeader());
+
+		// print request
+		System.out.print(verb);
+		System.out.print("\t");
+		System.out.println(url.toString());
+
 		return transport;
 	}
 
@@ -63,8 +71,10 @@ public class Connection {
 		try {
 
 			transport = this.createTransport(path, "GET");
-			this.responseStream = transport.getInputStream();
+			printHeaders();
 
+			this.responseStream = transport.getInputStream();
+			// printResponse();
 		} catch (Exception e) {
 
 			System.out.println(e.toString());
@@ -101,6 +111,7 @@ public class Connection {
 		try {
 			transport = this.createTransport(path, "POST");
 			transport.setDoOutput(true);
+			transport.setRequestProperty("Content-Type", "application/json");
 
 			OutputStreamWriter post = new OutputStreamWriter(
 					transport.getOutputStream());
@@ -108,7 +119,16 @@ public class Connection {
 			post.flush();
 			post.close();
 
+			printHeaders();
+			printBody(data);
+
 			this.responseStream = transport.getInputStream();
+			printResponse();
+
+			int result = transport.getResponseCode();
+			if (result == HttpURLConnection.HTTP_CREATED) {
+				return true;
+			}
 
 		} catch (Exception e) {
 			System.out.println(e.toString());
@@ -126,17 +146,22 @@ public class Connection {
 		try {
 			transport = this.createTransport(path, "PUT");
 			transport.setDoOutput(true);
-		    transport.setRequestProperty("Content-Type", "application/json");
+			transport.setRequestProperty("Content-Type", "application/json");
 
 			OutputStreamWriter put = new OutputStreamWriter(
 					transport.getOutputStream());
 			put.write(data);
 			put.flush();
 			put.close();
-			
+
+			printHeaders();
+			printBody(data);
+
 			this.responseStream = transport.getInputStream();
-			int result = transport.getResponseCode(); 
-			if(result == HttpURLConnection.HTTP_OK) {
+			printResponse();
+
+			int result = transport.getResponseCode();
+			if (result == HttpURLConnection.HTTP_OK) {
 				return true;
 			}
 		} catch (Exception e) {
@@ -154,6 +179,8 @@ public class Connection {
 
 		try {
 			transport = this.createTransport(path, "DELETE");
+			printHeaders();
+			printResponse();
 			return true;
 		} catch (Exception e) {
 			System.out.println(e.toString());
@@ -208,6 +235,29 @@ public class Connection {
 		}
 
 		return responseXml;
+	}
+
+	
+	public void printHeaders() {
+		System.out.println("HEADERS");
+		System.out.println("=======");
+		for (Entry<String, List<String>> header : this.transport
+				.getHeaderFields().entrySet()) {
+			System.out.println(header.getKey() + "=" + header.getValue());
+		}
+	}
+
+	public void printBody(String data) {
+		System.out.println("BODY");
+		System.out.println("====");
+		System.out.println(data);
+
+	}
+
+	public void printResponse() {
+		System.out.println("RESPONSE");
+		System.out.println("========");
+		//System.out.println(this.asString());
 	}
 
 }
