@@ -4,6 +4,10 @@ import org.w3c.dom.Element;
 
 public class ShippingAddress extends Response {
 
+	public ShippingAddress() {
+		super();
+	}
+
 	public ShippingAddress(Element document) {
 		super(document);
 	}
