@@ -6,12 +6,12 @@ import com.bigcommerce.api.Filter;
 import com.bigcommerce.api.Form;
 
 public interface Resource<T> {
-	public void setId(Integer id);
+	
 	public Boolean create(Form data);
-	public Boolean update(Form data);
+	public Boolean update(Integer id, Form data);
 	public List<T> listAll();
 	public List<T> listAll(Filter filter);
-	public T get();
-	public Boolean delete();
+	public T get(Integer id);
+	public Boolean delete(Integer id);
 	
 }
