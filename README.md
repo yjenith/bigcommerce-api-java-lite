@@ -31,8 +31,8 @@ This example executes a GET request to the Bigcommece api:
 	// Get Store API connection
 	Store api = new Store(storeUrl, user, apiKey);
 
-	String url = "/orders";
 	// Get Orders resource to manage
+	String url = "/orders";
 	Resource<Order> ordersRes = api.getResource(Order.class, url, "order");
 
 	// Get an Order
