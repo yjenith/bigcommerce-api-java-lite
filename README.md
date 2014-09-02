@@ -20,7 +20,7 @@ This is the simplest way to construct a Bigcommerce API client
 
 	String url = "/orders";
 	// Get Orders resource to manage
-	BaseResource<Order> ordersRes = api.newResource(Order.class, url, "order");
+	Resource<Order> ordersRes = api.getResource(Order.class, url, "order");
 
 This example executes a GET request to the Bigcommece api:
 
@@ -33,7 +33,7 @@ This example executes a GET request to the Bigcommece api:
 
 	String url = "/orders";
 	// Get Orders resource to manage
-	BaseResource<Order> ordersRes = api.newResource(Order.class, url, "order");
+	Resource<Order> ordersRes = api.getResource(Order.class, url, "order");
 	
 	// Set ID of the record
 	ordersRes.setId(105);
@@ -45,7 +45,7 @@ Execute a GET Request to get a single object
 ------------------------------------------------------
 
 	String url = "/orders";
-	BaseResource<Order> ordersRes = api.newResource(Order.class, url, "order");
+	Resource<Order> ordersRes = api.getResource(Order.class, url, "order");
 			
 	// Get an Order
 	Order order = ordersRes.get();
@@ -54,7 +54,7 @@ Execute a GET Request to get a list of objects
 ------------------------------------------------------
 
 	String url = "/orders";
-	BaseResource<Order> ordersRes = api.newResource(Order.class, url, "order");
+	Resource<Order> ordersRes = api.getResource(Order.class, url, "order");
 	
 	Collection<Order> orders = ordersRes.listAll();
 
@@ -62,7 +62,7 @@ Execute a POST Request on a single object
 ----------------------------------------------
 
 	String url = "/orders";
-	BaseResource<Order> ordersRes = api.newResource(Order.class, url, "order");
+	Resource<Order> ordersRes = api.getResource(Order.class, url, "order");
 	
 	// Form parameters
 	Form form = Form.create();
@@ -76,7 +76,7 @@ Execute a PUT Request on a single object
 ---------------------------------------------
 
 	String url = "/orders";
-	BaseResource<Order> ordersRes = api.newResource(Order.class, url, "order");
+	Resource<Order> ordersRes = api.getResource(Order.class, url, "order");
 	
 	// Set ID of the record to be updated
 	ordersRes.setId(107);
@@ -108,7 +108,7 @@ class BigcommerceApiTest
 
 		// Get Orders resource to manage
 		String url = "/orders";
-		BaseResource<Order> ordersRes = api.newResource(Order.class, url, "order");
+		Resource<Order> ordersRes = api.getResource(Order.class, url, "order");
 	
 		// Filter parameters
 		Filter filter = Filter.create();
