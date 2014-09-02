@@ -34,12 +34,9 @@ This example executes a GET request to the Bigcommece api:
 	String url = "/orders";
 	// Get Orders resource to manage
 	Resource<Order> ordersRes = api.getResource(Order.class, url, "order");
-	
-	// Set ID of the record
-	ordersRes.setId(105);
 
 	// Get an Order
-	Order order = ordersRes.get();
+	Order order = ordersRes.get(105);
 
 Execute a GET Request to get a single object
 ------------------------------------------------------
@@ -48,7 +45,7 @@ Execute a GET Request to get a single object
 	Resource<Order> ordersRes = api.getResource(Order.class, url, "order");
 			
 	// Get an Order
-	Order order = ordersRes.get();
+	Order order = ordersRes.get(105);
 
 Execute a GET Request to get a list of objects
 ------------------------------------------------------
@@ -77,16 +74,13 @@ Execute a PUT Request on a single object
 
 	String url = "/orders";
 	Resource<Order> ordersRes = api.getResource(Order.class, url, "order");
-	
-	// Set ID of the record to be updated
-	ordersRes.setId(107);
 
 	// Form parameters
 	Form form = Form.create();
 	form.addProperty("status_id", 12);
 
 	// Update
-	Boolean status = ordersRes.update(form);
+	Boolean status = ordersRes.update(107, form);
 
 
 Using the store facade:
