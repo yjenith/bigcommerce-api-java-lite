@@ -66,7 +66,7 @@ Execute a POST Request on a single object
 	form.addProperty...
 	form.addProperty...
 
-	// Update
+	// Create
 	Boolean status = ordersRes.create(form);
 
 Execute a PUT Request on a single object
