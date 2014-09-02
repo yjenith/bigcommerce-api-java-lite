@@ -2,15 +2,13 @@ package com.bigcommerce.api;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.json.simple.JSONValue;
 
 /**
  * Builds a JSON formatted String of the Form parameters.
  * 
- * @author Jenith Michael Raj
+ * @author Jenith Michael Raj. Y
  * 
  */
 public class Form {
@@ -34,7 +32,7 @@ public class Form {
 				: new Form(parameters);
 	}
 
-	public <T> void addParam(String parameter, T value) {
+	public <T> void addProperty(String parameter, T value) {
 		this.parameters.put(parameter, value);
 	}
 
@@ -48,20 +46,15 @@ public class Form {
 		String json = null;
 		try {
 			json = buildJson(this.parameters);
-		} catch (JSONException e) {
+		} catch (Exception e) {
 			// TODO Log
 			e.printStackTrace();
 		}
 		return (json != null) ? json : "";
 	}
 
-	private String buildJson(Map<String, Object> data) throws JSONException {
-		JSONObject json = new JSONObject();
-		for (Entry<String, Object> pair : data.entrySet()) {
-			json.put(pair.getKey(), pair.getValue());
-		}
-		
-		return json.toString();
+	private String buildJson(Map<String, Object> data) {
+		return JSONValue.toJSONString(data);
 	}
 
 }
