@@ -1,10 +1,11 @@
 package com.bigcommerce.api;
 
-import com.bigcommerce.api.resources.Orders;
-import com.bigcommerce.api.resources.Products;
+import com.bigcommerce.api.resources.BaseResource;
 
 /**
  * Facade for accessing a Bigcommerce store via the REST API.
+ * 
+ * @author Jenith
  */
 public class Store {
 	private Connection connection;
@@ -12,13 +13,15 @@ public class Store {
 	/**
 	 * A constructor that accepts any object implementing
 	 * {@link com.bigcommerce.api.auth.Credentials Credentials}.
+	 * 
 	 * @param storeUrl
 	 * @param credentials
 	 */
 	public Store(String storeUrl, Credentials credentials) {
-		this.connection = new Connection(storeUrl, credentials.getUsername(), credentials.getApiKey());
+		this.connection = new Connection(storeUrl, credentials.getUsername(),
+				credentials.getApiKey());
 	}
-	
+
 	/**
 	 * A simple constructor that accepts a username and API key as credentials.
 	 * 
@@ -31,22 +34,26 @@ public class Store {
 	}
 
 	/**
-	 * Gets Orders resource to manage.
+	 * Gets new generic resource to manage.
 	 * 
+	 * @param <T>
 	 * 
 	 * @return
 	 */
-	public Orders getOrders(){
-		return new Orders(this.connection);
+	public <T extends Response> BaseResource<T> newResource(Class<T> className,
+			String path, String rootItemTag) {
+
+		BaseResource<T> br = new BaseResource<T>(className, this.connection,
+				path.toString(), rootItemTag);
+
+		return br;
 	}
-	
+
 	/**
-	 *  Gets Products resource to manage.
-	 * 
-	 * @return
+	 * Closes api connection
 	 */
-	public Products getProducts(){
-		return new Products(this.connection);
+	public void close() {
+		this.connection.close();
 	}
 
 }
