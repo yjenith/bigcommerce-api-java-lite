@@ -5,7 +5,7 @@ import java.util.Collection;
 import com.bigcommerce.api.resources.BaseResource;
 import com.bigcommerce.api.resources.Resource;
 
-public class ResourceApiTest {
+public class BigcommerceApiTest {
 
 	public static void main(String[] args) {
 		String storeUrl = "https://examplestore.com";
@@ -25,7 +25,7 @@ public class ResourceApiTest {
 		testListOrderWithFilter(ordersRes);
 		testGetAnOrder(ordersRes);
 		testUpdateOrder(ordersRes);
-		//testDeleteOrder(ordersRes);
+		testDeleteOrder(ordersRes);
 	}
 
 	/**
