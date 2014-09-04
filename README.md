@@ -9,7 +9,7 @@ Installation
 Import the .jar file into your classpath, or download and compile the source
 package in ./src
 
-Required Library: 
+Required Library: commons-codec-1.3.jar, json-simple.jar
 
 Getting Started
 ---------------
@@ -120,7 +120,5 @@ class BigcommerceApiTest
 
 }
 ```
-Unit test: https://github.com/yjenith/bigcommerce-api-java-lite/blob/master/src/test/java/com/bigcommerce/api/BigcommerceApiTest.java
-
-See also: https://github.com/yjenith/bigcommerce-api-java 
+See also: https://github.com/yjenith/bigcommerce-api-java | Unit test: https://github.com/yjenith/bigcommerce-api-java-lite/blob/master/src/test/java/com/bigcommerce/api/BigcommerceApiTest.java
 
