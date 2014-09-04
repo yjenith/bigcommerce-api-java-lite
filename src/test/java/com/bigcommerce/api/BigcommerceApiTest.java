@@ -12,7 +12,6 @@ public class BigcommerceApiTest {
 		String user = "admin";
 		String apiKey = "akjfalksjflksjflaskdjflasdk";
 
-
 		// Get Store API connection
 		Store api = new Store(storeUrl, user, apiKey);
 
