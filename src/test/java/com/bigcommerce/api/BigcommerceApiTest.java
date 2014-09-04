@@ -2,7 +2,6 @@ package com.bigcommerce.api;
 
 import java.util.Collection;
 
-import com.bigcommerce.api.resources.BaseResource;
 import com.bigcommerce.api.resources.Resource;
 
 public class BigcommerceApiTest {
@@ -104,7 +103,7 @@ public class BigcommerceApiTest {
 	 * 
 	 * @param api
 	 */
-	public static void testDeleteOrder(BaseResource<Order> ordersRes) {
+	public static void testDeleteOrder(Resource<Order> ordersRes) {
 		System.out.println("Test  Update Order-----");
 
 		// Update
