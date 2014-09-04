@@ -17,9 +17,9 @@ public class BigcommerceApiTest {
 		Store api = new Store(storeUrl, user, apiKey);
 
 		// Get Orders resource to manage
-		StringBuffer uriPath = new StringBuffer("/orders");
+		String uriPath = new String("/orders");
 		Resource<Order> ordersRes = api.getResource(Order.class,
-				uriPath.toString(), "order");
+				uriPath, "order");
 
 		testListOrderWithNoFilter(ordersRes);
 		testListOrderWithFilter(ordersRes);
