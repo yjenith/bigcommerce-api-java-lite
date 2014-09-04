@@ -120,5 +120,7 @@ class BigcommerceApiTest
 
 }
 ```
-See also: https://github.com/yjenith/bigcommerce-api-java 
 Unit test: https://github.com/yjenith/bigcommerce-api-java-lite/blob/master/src/test/java/com/bigcommerce/api/BigcommerceApiTest.java
+
+See also: https://github.com/yjenith/bigcommerce-api-java 
+
